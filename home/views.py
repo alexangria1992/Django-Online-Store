@@ -2,13 +2,16 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from home.models import Setting, ContactForm, ContactMessage
+from product.models import Category
+from product.models import Product
 from django.contrib import messages
 
 # Create your views here.
 def index(request):
     setting = Setting.objects.get(pk=1)
+    category = Category.objects.all()
     page = "home"
-    context={'setting':setting, 'page':page}
+    context={'setting':setting, 'page':page, 'category':category}
     return render(request, 'index.html', context)
 
 def aboutus(request):
@@ -35,4 +38,7 @@ def contactus(request):
     form = ContactForm
     context={'setting':setting, 'form':form}
     return render(request, 'contactus.html', context)
-    
+
+def category_products(request, id, slug):
+    products = Product.objects.filter(category_id=id)
+    return HttpResponse(products)
