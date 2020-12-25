@@ -10,8 +10,12 @@ from django.contrib import messages
 def index(request):
     setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
+    products_slider = Product.objects.all().order_by('-id')[:4]
     page = "home"
-    context={'setting':setting, 'page':page, 'category':category}
+    context={'setting':setting,
+             'page':page, 
+             'products_slider': products_slider,
+             'category':category}
     return render(request, 'index.html', context)
 
 def aboutus(request):
